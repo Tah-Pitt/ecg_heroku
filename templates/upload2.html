@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style type="text/css">
+body{
+    background-color: #2F4F4F;
+    font-family: "Times New Roman" 
+    font-style: normal;
+    font-size: 20px;
+    font-weight: bold;
+    color:  #F8F8FF;
+    text-align: justify;
+    text-decoration: none;
+  }
+img {
+    display: block;
+    margin: auto;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    padding: 5px;
+    width: 35%;
+    background-color: #008CBA;
+     }
+
+table {
+    background-color: #008CBA; 
+    width:auto; 
+    margin-left:auto; 
+    margin-right:auto;
+    color:  white;
+     }
+input[name="file"] {
+    background-color: #00008B; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+     }  
+    
+input[name="text"] {
+    background-color: #00008B; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: left;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+     }  
+  
+.button {
+    background-color: #008CBA; 
+    border: none;
+    font-weight: bold;
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        }
+.button:hover {background: #9400D3;
+      } 
+
+a:hover {
+  background-color: white;
+}
+
+.plothead {
+         text-align: center;
+               }
+.toprightcorner{
+   position:absolute;
+   top:0;
+   right:0;
+ }
+.btn {
+    position: absolute;
+    right:    3%;
+    bottom:   3%;
+    background-color: #4B0082; 
+    border: none;
+    font-weight: bold;
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 4px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        }
+
+/* On mouse-over */
+.btn:hover {background: #9400D3;}
+}
+</style>
+
+    <meta charset="UTF-8">
+    <title>ECG ARRHYTHMIA CLASSIFIER</title>
+</head>
+<body>
+
+<h2>Upload ecg raw data</h2> 
+<form input type="hidden" name="myform" value="file_upload_form" method="post" enctype="multipart/form-data">
+  <p><input type="file" name= "file" accept=".csv" > <input type=submit class="button" value="Predict" >
+   </form>
+   <div class="plothead">{{imagedata | safe}}</div>
+<p>
+  {% if result != None %}
+  <img src="data:image/png;base64,{{ result }}" width="1024">
+  {% endif %}
+ </p>
+ <table>{{data | safe}}</table>
+ <p class="toprightcorner">Click <a href="/logout" style="color: #cc0000">here</a> to logout.<br>
+</p>
+ 
+ </div>
+</body>
+</html>

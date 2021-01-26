@@ -145,7 +145,7 @@ def predict():
         ybeat = [datanp[x] for x in peaks]
 
         y_coordinates = datanp
-        bar_heights = df['count'].values
+        #bar_heights = df['count'].values
         plt.plot(x_coordinates, y_coordinates, label="raw signal")
         plt.xticks(x_coordinates, x_labels[-30:], rotation='vertical')
         plt.scatter(peaks, ybeat, color='red', label="average: %.1f BPM" %bpm)

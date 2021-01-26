@@ -147,9 +147,9 @@ def predict():
         y_coordinates = datanp
         #bar_heights = df['count'].values
         plt.plot(x_coordinates, y_coordinates, label="raw signal")
-        plt.xticks(x_coordinates, x_labels[-30:], rotation='vertical')
+        #plt.xticks(x_coordinates, x_labels[-30:], rotation='vertical')
         plt.scatter(peaks, ybeat, color='red', label="average: %.1f BPM" %bpm)
-        plt.ylabel('Count of things')
+        #plt.ylabel('Count of things')
         plt.legend(loc=4, framealpha=0.6)
         plt.title('ecg plot')
         plt.grid()

@@ -23,7 +23,7 @@ app.config['SECRET_KEY'] = b'b\xa1\xe8\x0bs\x06\xae\xfd\xa8\xcc~!9'
 
 def get_model():
     global model
-    model = load_model('arrythmia_rescnn3.h5')
+    model = load_model('arrythmia_trial.h5')
     print(" * Model loaded!")
 
 
@@ -53,10 +53,15 @@ def upload():
         sampledf= pd.read_csv(request.files.get('file'), header=None)
         sampledf= sampledf.apply(lambda x: pd.to_numeric(x, errors = 'coerce')).dropna()
         datanp = np.array(sampledf).astype(float)
+        output = list()
+        for i in range(0,len(datanp)-1,2):
+            a = (datanp[i]+ datanp[i+1])/2
+            output.append(a)
+        datanp = np.array(output)
         epsil = 10E-8
         datanp = datanp-np.amin(datanp)
         datanpn = datanp/(np.amax(datanp)+epsil)
-        peaks = biosppy.signals.ecg.engzee_segmenter(signal=datanpn, sampling_rate=125.0, threshold=0.8)[0]
+        peaks = biosppy.signals.ecg.engzee_segmenter(signal=datanpn, sampling_rate=125.0, threshold=0.85)[0]
         
         signals = []
         count = 1   
@@ -94,13 +99,18 @@ def predict():
         sampledf= pd.read_csv(request.files.get('file'), header=None)
         sampledf= sampledf.apply(lambda x: pd.to_numeric(x, errors = 'coerce')).dropna()
         datanp = np.array(sampledf).astype(float)
+        output = list()
+        for i in range(0,len(datanp)-1,2):
+            a = (datanp[i]+ datanp[i+1])/2
+            output.append(a)
+        datanp = np.array(output)
         epsil = 10E-8
         datanp = datanp-np.amin(datanp)
         datanpn = datanp/(np.amax(datanp)+epsil)
-        peaks = biosppy.signals.ecg.engzee_segmenter(signal=datanpn, sampling_rate=125.0, threshold=0.8)[0]
+        peaks = biosppy.signals.ecg.engzee_segmenter(signal=datanpn, sampling_rate=125.0, threshold=0.85)[0]
         RR_list = []
         cnt = 0
-        fs = 200
+        fs = 125
         while (cnt < (len(peaks)-1)):
             RR_interval = (peaks[cnt+1] - peaks[cnt]) #Calculate distance between beats in # of samples
             ms_dist = ((RR_interval / fs) * 1000.0) #Convert sample distances to ms distances
@@ -135,11 +145,11 @@ def predict():
         ybeat = [datanp[x] for x in peaks]
 
         y_coordinates = datanp
-        #bar_heights = df['count'].values
+        bar_heights = df['count'].values
         plt.plot(x_coordinates, y_coordinates, label="raw signal")
-        #plt.xticks(x_coordinates, x_labels[-30:], rotation='vertical')
-        #plt.scatter(peaks, ybeat, color='red', label="average: %.1f BPM" %bpm)
-        #plt.ylabel('Count of things')
+        plt.xticks(x_coordinates, x_labels[-30:], rotation='vertical')
+        plt.scatter(peaks, ybeat, color='red', label="average: %.1f BPM" %bpm)
+        plt.ylabel('Count of things')
         plt.legend(loc=4, framealpha=0.6)
         plt.title('ecg plot')
         plt.grid()

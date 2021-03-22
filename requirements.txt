@@ -14,3 +14,4 @@ Werkzeug==1.0.1
 MarkupSafe==1.1.1
 tensorflow==2.3.1
 Keras==2.4.3
+seasonal==0.3.1
